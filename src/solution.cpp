@@ -1,55 +1,32 @@
+#include<algorithm>
 #include"../inc/solution.hpp"
 
 
 double Solution::findMedianSortedArrays(std::vector<int>& nums1, std::vector<int>& nums2)
 {
-    auto n1Low{nums1.begin()}, n1High{nums1.end()-1}, n2Low{nums2.begin()}, n2High{nums2.end()-1};
-    int totLen = nums1.size() + nums2.size();
-    int shifts = totLen/2 - ( (totLen%2) ? 0 : 1 );
-    double median{0}, leftOfMedian{0}, rightOfMedian{0};
-    bool n1Spent{false}, n2Spent{false};
+    // guarantee that smaller vector is first argument for convenience
+    if(nums1.size() > nums2.size()){ return findMedianSortedArrays(nums2,nums1); }
 
-    int shiftCounter{0};
-
-    // find median for odd total elements
-    while(shiftCounter < shifts && totLen%2)
+    int totSize = nums1.size() + nums2.size();
+    int partIdx1 = nums1.size()/2, partIdx2 = (int) (totSize + 1)/2 - partIdx1;
+    
+    while(true)
     {
-        if(n1Low == n1High){ n1Spent == true; }
-        if(n2Low == n2High){ n2Spent == true; }
-
-        if(*n1Low == *n2Low)
-        { 
-            if(n1Spent)         { ++n2Low; shiftCounter+=2; }
-            else if(n2Spent)    { ++n1Low; shiftCounter+=2; }
-            else                { ++n1Low; ++n2Low; shiftCounter+=2; } 
+        if(nums1[partIdx1-1] <= nums2[partIdx2] && nums2[partIdx2-1] <= nums1[partIdx1])
+        {
+            // partition successful, compute the median
+            return (double) (totSize%2)
+            ? (std::max(nums1[partIdx1-1], nums2[partIdx2-1]) + std::min(nums1[partIdx1], nums2[partIdx2]) )/2
+            : std::max(nums1[partIdx1-1], nums2[partIdx2-1]);
         }
         else
         {
-            if(n1Spent)         { ++n2Low; ++shiftCounter; }
-            else if(n2Spent)    { ++n1Low; ++shiftCounter; }
-            else                { (*n1Low < *n2Low) ? ++n1Low : ++n2Low; ++shiftCounter; } 
+            (nums1[partIdx1-1] > nums2[partIdx2]) 
+                // max value in LHS of partition of nums1 too large, shift partition index of nums1 to the left
+            ?    --partIdx1
+                // min value in RHS partition of nums1 too small, shift partition index of nums1 to the right
+            :    ++partIdx1;
+            partIdx2 = (int) (totSize + 1)/2 - partIdx1;
         }
     }
-    if(n1Spent || n2Spent){ median = (n1Spent) ? *n2Low : *n1Low; }
-    else{ median = std::min(*n1Low, *n2Low); }
-
-
-    // find median for even total elements
-/*     while(shiftCounter < shifts && !(totLen%2))
-    {
-        if(n1Low == n1High){ n1Spent == true; }
-        if(n2Low == n2High){ n2Spent == true; }
-
-        if(*n1Low == *n2Low) // edit from here
-        { 
-            if(n1Spent){ ++n2Low; shiftCounter+=2; }
-            else if(n2Spent){ ++n1Low; shiftCounter+=2; }
-            else{ ++n1Low; ++n2Low; shiftCounter+=2; } 
-        }
-        else{ (*n1Low < *n2Low) ? ++n1Low : ++n2Low; ++shiftCounter; }
-    }
-    if(n1Spent || n2Spent){ median = (n1Spent) ? *n2Low : *n1Low; }
-    else{ median = std::min(*n1Low, *n2Low); } */
-
-    return median;
 }
