@@ -15,9 +15,9 @@ double Solution::findMedianSortedArrays(std::vector<int>& nums1, std::vector<int
         if(nums1[partIdx1-1] <= nums2[partIdx2] && nums2[partIdx2-1] <= nums1[partIdx1])
         {
             // partition successful, compute the median
-            return (double) (totSize%2)
-            ? (std::max(nums1[partIdx1-1], nums2[partIdx2-1]) + std::min(nums1[partIdx1], nums2[partIdx2]) )/2
-            : std::max(nums1[partIdx1-1], nums2[partIdx2-1]);
+            return (double) (totSize%2)  // true if totSize odd, false if even
+            ? std::max(nums1[partIdx1-1], nums2[partIdx2-1])
+            : (std::max(nums1[partIdx1-1], nums2[partIdx2-1]) + std::min(nums1[partIdx1], nums2[partIdx2]) )/2;
         }
         else
         {
