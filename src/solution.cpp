@@ -21,11 +21,11 @@ double Solution::findMedianSortedArrays(std::vector<int>& nums1, std::vector<int
         }
         else
         {
-            (nums1[partIdx1-1] > nums2[partIdx2]) 
+            partIdx1 = (nums1[partIdx1-1] > nums2[partIdx2]) 
                 // max value in LHS of partition of nums1 too large, shift partition index of nums1 to the left
-            ?    --partIdx1
+            ?    (partIdx1-1)/2 // TEST, INT_MIN / INT_MAX
                 // min value in RHS partition of nums1 too small, shift partition index of nums1 to the right
-            :    ++partIdx1;
+            :    (nums1.size() - (partIdx1+1))/2; // TEST
             partIdx2 = (int) (totSize + 1)/2 - partIdx1;
         }
     }
