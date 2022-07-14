@@ -8,7 +8,7 @@ double Solution::findMedianSortedArrays(std::vector<int>& nums1, std::vector<int
     if(nums1.size() > nums2.size()){ return findMedianSortedArrays(nums2,nums1); }
 
     int totSize = nums1.size() + nums2.size();
-    int partIdx1 = nums1.size()/2, partIdx2 = (int) (totSize + 1)/2 - partIdx1;
+    int partIdx1 = nums1.size()/2, partIdx2 = (int) (totSize + 1)/2 - partIdx1; // CHECK AGAIN
     
     while(true)
     {
