@@ -5,7 +5,8 @@
 
 int main()
 {
-	//std::vector<int> vec1{1}, vec2{1,2};  // 2
+	//std::vector<int> vec1, vec2{1,2};  // 1.5
+	//std::vector<int> vec1{1}, vec2{1,2};  // 1
 	//std::vector<int> vec1{1,2}, vec2{3,4};  // 2.5
 	//std::vector<int> vec1{3,5,6}, vec2{1,3,4,7,9,12};  // 5
 	std::vector<int> vec1{3,5,6,10}, vec2{1,3,4,7,9,12};  // 5.5
